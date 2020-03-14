@@ -1,0 +1,23 @@
+* {
+    margin: 0; 
+    padding: 0;
+}
+
+li {
+    text-decoration:none;
+    color:#000;
+    background:#ffc;
+    display:block;
+    height: 5rem;
+    width: 5rem;
+    margin: 1rem;
+    float: left;
+    box-shadow: 0.5rem 0.5rem 0.75rem rgba(33, 33, 33, 0.7);
+    transition: transform .15s linear;
+    overflow-wrap: break-word;
+
+    // &:hover, &:focus {
+    //     box-shadow: 10px 10px 7px rgba(0,0,0,.7);
+    //     transform: scale(1.25);
+    // }
+}

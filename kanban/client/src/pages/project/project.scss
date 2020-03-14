@@ -1,0 +1,26 @@
+.mainPage {
+  height:100%;
+  width: 100vw;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+
+.addButton {
+	background-color:#004992;
+	border:none;
+	border-radius:50%;
+	position: fixed;
+	bottom: 15%;
+	right: 7%;
+	display:inline-block;
+	cursor:pointer;
+	width:6rem;
+	height: 6rem;
+	text-decoration:none;
+
+	&:focus {
+		outline: none;
+    }
+}
