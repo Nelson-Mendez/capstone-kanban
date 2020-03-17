@@ -19,7 +19,6 @@ export default class Project extends React.Component {
       modalIsOpen: false,
   };
 
-
   toggleModal = () => {
       this.setState ({ modalIsOpen: !this.state.modalIsOpen})
   }
@@ -28,9 +27,24 @@ export default class Project extends React.Component {
       this.setState({ needsUpdate: true});
   }
 
-  changeStatus = () => {
-    console.log("dropped!")
+  dropNote = (box, noteId) => {
 
+
+
+    let newList = this.state.noteList
+
+    newList.forEach(note => {
+      if (note.id === noteId){
+        note.status = box
+      }
+    })
+
+    Axios.put('http://localhost:8080/project/change', newList)
+    .then (res => {
+      this.setState({ 
+        noteList: res.data,
+      })
+    })
   }
 
   getNotes = () => {
@@ -54,6 +68,7 @@ export default class Project extends React.Component {
   componentDidUpdate (_, prevState) {
       if (this.state.needsUpdate && prevState.loadedNotes === true) {
           this.setState({ loadedNotes: false});
+          console.log("boutta update")
           this.getNotes();
       }
   }
@@ -71,9 +86,9 @@ export default class Project extends React.Component {
               {loadedNotes 
 
                 ?<>
-                  <Board changeStatus={this.changeStatus} contents={{title: "TODO"}} >
+                  <Board dropNote={this.dropNote} contents={{title: "TODO", check: "0"}} >
                   {this.state.noteList.map(note => {
-                      if(note.status == 0 ){
+                      if(note.status === 'TODO' ){
                         return (
                           <Note contents={note} />
                         )
@@ -81,9 +96,9 @@ export default class Project extends React.Component {
                     })}
                   </Board>
 
-                  <Board contents={{title: "In Progress"}}>
+                  <Board dropNote={this.dropNote} contents={{title: "In Progress", check: "1"}}>
                     {this.state.noteList.map(note => {
-                      if(note.status == 1 ){
+                      if(note.status === "In Progress" ){
                         return (
                           <Note contents={note} />
                         )
@@ -91,9 +106,9 @@ export default class Project extends React.Component {
                     })}
                   </Board>
 
-                  <Board contents={{title: "Complete"}} >
+                  <Board dropNote={this.dropNote} contents={{title: "Complete", check: "2"}} >
                   {this.state.noteList.map(note => {
-                      if(note.status == 2 ){
+                      if(note.status === "Complete" ){
                         return (
                           <Note contents={note} />
                         )

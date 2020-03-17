@@ -14,4 +14,10 @@ router.post("/:id", (req, res) => {
     return res.status(201).send(noteList)
 })
 
+router.put("/change", (req, res) => {
+    const { body } = req;
+    noteList = body
+    return res.status(201).send(noteList)
+})
+
 module.exports = router

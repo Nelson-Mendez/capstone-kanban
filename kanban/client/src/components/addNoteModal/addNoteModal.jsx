@@ -30,7 +30,7 @@ export default class AddNoteModal extends React.Component {
         user: event.target.user.value,
         description: event.target.description.value, 
         color: noteColor,  
-        status: '0',
+        status: 'TODO',
     }
 
     axios.post('http://localhost:8080/project/1', note)

@@ -4,14 +4,12 @@ import { useDrag } from 'react-dnd';
 
 import './stickynote.scss';
 
-function Note (props) {
+function Note (props) {  
 
-
-    
     const { contents } = props;
 
     const [{ isDragging }, drag] = useDrag({
-      item: { type: ItemTypes.NOTE },
+      item: { id: contents.id, type: ItemTypes.NOTE },
       collect: monitor => ({
         isDragging: !!monitor.isDragging(),
       }),
@@ -20,9 +18,9 @@ function Note (props) {
     return(
 
         <li ref={drag}  style={{backgroundColor: contents.color, opacity: isDragging ? 0.25 : 1, }}>
-                <h2>{contents.title}</h2>
-                <h3>{contents.user}</h3>
-                <p>{contents.description}</p>
+            <h2>{contents.title}</h2>
+            <h3>{contents.user}</h3>
+            <p>{contents.description}</p>
         </li>
     )     
 }

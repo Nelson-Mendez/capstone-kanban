@@ -4,9 +4,11 @@ import { useDrop } from 'react-dnd'
 import "./projectboard.scss";
 
 function Board (props) {
+
+
   const [{ isOver}, drop] = useDrop({
     accept: ItemTypes.NOTE,
-    drop: () => changeStatus(),
+    drop: (item) => props.dropNote(props.contents.title, item.id),
     collect: monitor => ({
       isOver: !!monitor.isOver(),
     })
