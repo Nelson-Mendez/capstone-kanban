@@ -6,31 +6,40 @@ import './user.scss';
 export default class Projects extends React.Component {
     state = {
         projectList: [],
+        userData: [],
         isLoaded: false,
         projectId: "",
     }
 
-    componentDidMount () {
-        console.log("projectList component did mount.");
-
-        axios.get("http://localhost:8080/projects")
+    getUserData () {
+        axios.get(`http://localhost:8080/user/`)
         .then(res => {
-            console.log(res)
+            console.log(res.data)
             this.setState({
-                projectList: res.data,
-                isLoaded: true
+                userData: res.data,
             })
+            return axios.get()
         })
         .catch(err => {
             console.log("Error ", err);
         });
+    } 
+
+    authUser () {
+        axios.post(`https://github.com/login/oauth/access_token=${this.params}`)
+    }
+
+    componentDidMount () {
+        console.log("projectList component did mount.");
+        this.getUserData();
+
+
     }
 
     render () {
         return (
             <> 
-            <h1>This is the project page where a list of projects 
-                you are a part of will show up </h1>
+                <h1>Welcome {this.state.userData.displayName}! What are you finna do? </h1>
 
                 <div className="choices">
                     <h3 className="choices__one">click here to create a new project</h3>
@@ -38,7 +47,6 @@ export default class Projects extends React.Component {
                     <h3 className="choices__one">click here to join another project</h3>
                 </div>
                 
-            {this.state.isLoaded ? <h3>is loaded is true</h3> : <h3> is loaded is false</h3>}
             </>
         )
     }

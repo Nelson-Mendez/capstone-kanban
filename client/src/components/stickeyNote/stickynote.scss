@@ -16,8 +16,13 @@ li {
     transition: transform .15s linear;
     overflow-wrap: break-word;
 
-    // &:hover, &:focus {
-    //     box-shadow: 10px 10px 7px rgba(0,0,0,.7);
-    //     transform: scale(1.25);
-    // }
+    &:hover, &:focus {
+        box-shadow: 10px 10px 7px rgba(0,0,0,.7);
+        transform: scale(1.5);
+    }
+
+    &:active {
+        transform: scale(4);
+        font-size: 0.25rem;
+    }
 }

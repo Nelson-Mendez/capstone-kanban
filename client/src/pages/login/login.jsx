@@ -1,6 +1,5 @@
 import React from 'react';
 import Axios from 'axios';
-import { Link } from "react-router-dom";
 
 
 export default class Login extends React.Component {
@@ -21,12 +20,7 @@ export default class Login extends React.Component {
         return (
             <>
                 <h1>Login page!</h1>
-                <h3>Stuff should show up here in the near future</h3>
-                <Link to="/user" >
-                    <h3>eventually when this page loads and you're authenticated
-                        it will maybe redirect you right away to the projects page
-                    </h3>
-                </Link>
+                <a href="https://github.com/login/oauth/authorize?client_id=bf4285944652d709211c">Log in with github!</a>
             </>
         )
     }
