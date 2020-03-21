@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+var bodyParser = require('body-parser')
 const passport = require("passport");
 const GithubStrategy = require("passport-github").Strategy;
 const configStuff = require("./config");
@@ -7,6 +8,8 @@ const configStuff = require("./config");
 const app = express();
 // const authRouter = require ('./routes/authRoutes');
 const userRouter = require ('./routes/userRoutes');
+
+
 const projectsRouter = require ('./routes/projectsRoutes');
 const databaseRouter = require ('./routes/databaseRoutes');
 
@@ -20,25 +23,22 @@ passport.deserializeUser((user, cb) => {
   cb(null, user);
 });
 
-
-
 passport.use(new GithubStrategy({
   clientID: configStuff.clientID,
   clientSecret: configStuff.clientSecret,
   callbackURL: "/auth/callback"
   },
   (accessToken, refreshToken, profile, cb) => {
-    console.log(JSON.stringify(profile));
     user = { ...profile };
     return cb(null, profile);
   }
 ));
 
-
-
 app.use(cors());
 app.use(passport.initialize())
 app.use(express.json());
+app.use(bodyParser.json());
+
 
 app.get("/auth/", passport.authenticate("github"));
 app.get("/auth/callback", passport.authenticate("github"), (req, res) => {

@@ -4,8 +4,8 @@ module.exports = {
 
     host: 'localhost',
     port: 3306,
-    user: 'Nelson',
+    user: 'root',
     database: 'kanban',
-    password: 123789456
+    password: '123789456'
   };
    

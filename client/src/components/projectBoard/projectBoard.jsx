@@ -16,7 +16,7 @@ function Board (props) {
   
   return (
     <div ref={drop} className="board"> 
-      <h1>{props.contents.title}</h1>
+      <h1 className="board__title">{props.contents.title}</h1>
 
       {props.children}
 

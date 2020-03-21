@@ -2,4 +2,9 @@
   position:relative;
   width: 30%;
   border: 1px dashed red;
+  height: 80vh;
+
+  &__title {
+    margin-top: 1rem;
+  }
 }
