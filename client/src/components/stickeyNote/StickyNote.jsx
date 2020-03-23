@@ -9,7 +9,7 @@ function Note (props) {
     const { contents } = props;
 
     const [{ isDragging }, drag] = useDrag({
-      item: { id: contents.id, type: ItemTypes.NOTE },
+      item: { ticketId: contents.TicketId, type: ItemTypes.NOTE },
       collect: monitor => ({
         isDragging: !!monitor.isDragging(),
       }),
@@ -17,10 +17,10 @@ function Note (props) {
 
     return(
 
-        <li ref={drag}  style={{backgroundColor: contents.color, opacity: isDragging ? 0.25 : 1, }}>
-            <h2>{contents.title}</h2>
-            <h3>{contents.user}</h3>
-            <p>{contents.description}</p>
+        <li ref={drag}  style={{backgroundColor: contents.Color, opacity: isDragging ? 0.25 : 1, }}>
+            <h2>{contents.Title}</h2>
+            <h3>{contents.User}</h3>
+            <p>{contents.Description}</p>
         </li>
     )     
 }

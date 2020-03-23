@@ -1,73 +1,99 @@
 import React from "react";
 import axios from "axios";
-import { Link } from 'react-router-dom';
-import './user.scss';
+
 import AddProject from '../../components/newProject/newProject'
+import ProjectList from '../../components/projectList/projectList'
+import JoinProject from '../../components/joinProject/joinProject'
+
+import './user.scss';
 
 export default class Projects extends React.Component {
     state = {
         projectList: [],
         userData: [],
-        isLoaded: false,
+        hasData: false,
         projectId: "",
     }
 
     getUserData () {
         axios.get(`http://localhost:8080/user/`)
         .then(res => {
-            console.log(res.data)
+
             this.setState({
                 userData: res.data,
+                hasData: true,
+
             })
-            // return axios.post('http://localhost:8080/database/user/', {
-            //     id: this.state.userData.id,
-            //     displayName: this.state.userData.displayName
-            // })
-            // .then( response => console.log(response))
-            // .catch(error => console.log("Error", error))
+
+            
+            const userId = Number(res.data.id);
+            const displayName = res.data.displayName;
+            
+            this.sendUser(userId, displayName);
+            this.getProjects(userId);
+
+            
         })
-        .catch(err => {
-            console.log("Error ", err);
-        });
+        .catch(err => console.log("Error ", err));
     } 
 
-    joinUserProject(projectId) {
-
-        const foo = {
-            UserId: this.state.userData.id,
-            ProjectId: projectId
+    sendUser(USERID, DISPLAYNAME) {
+        let userInfo = {
+            userId: USERID,
+            displayName: DISPLAYNAME,
         }
+
+        axios.post('http://localhost:8080/database/user', userInfo)
+        .then( response => console.log(response))
+        .catch( error => console.log(error))
+    }
+
+
+    getProjects (foobar) {
+        axios.get(`http://localhost:8080/database/projects/${foobar}`)
+        .then(res => this.setState({ projectList: res.data.result }))
+        .catch(error => console.log(error));
+    }
+    // joinUserProject(projectId) {
+
+    //     const foo = {
+    //         UserId: this.state.userData.id,
+    //         ProjectId: projectId
+    //     }
         
-        axios.post('http://localhost:8080/database/projects/join', foo)
-        .then( res => console.log(res))
-        .catch( err => console.log(err));
+    //     axios.post('http://localhost:8080/database/projects/join', foo)
+    //     .then( res => console.log(res))
+    //     .catch( err => console.log(err));
 
-    }
-
-    authUser () {
-        axios.post(`https://github.com/login/oauth/access_token=${this.params}`)
-    }
+    // }
 
     componentDidMount () {
-        console.log("User page component did mount.");
         this.getUserData();
-
     }
 
     render () {
 
+        const { id } = this.state.userData;
 
         return (
-            <> 
-                <h1>Welcome {this.state.userData.displayName}! What are you going to do today? </h1>
-
-                <div className="choices">
-                    <AddProject newfnc={this.joinUserProject()}/>
-                    <Link to={`/project/${this.state.projectId}`} className="choices__one"> <h3>click here to access one of your own projects</h3></Link>
-                    <h3 className="choices__one">click here to join another project</h3>
-                </div>
+            <main className="profile"> 
+                <h1 className="profile__title" >Welcome {this.state.userData.displayName}! </h1>
+                <h3 className="profile__sub" >What are you going to do today?</h3>
+                 
+                {this.state.hasData && 
+                    <div className="profile__options">
+                        <ProjectList 
+                        className="profile__section" 
+                        allProjects={this.state.projectList}
+                        />
+                        <div className="profile__create-join">
+                            <AddProject className="profile__section" userId={id} />
+                            <JoinProject userId={id} />
+                        </div>
+                    </div>
+                }
                 
-            </>
+            </main>
         )
     }
 } 

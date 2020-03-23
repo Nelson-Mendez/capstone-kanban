@@ -8,7 +8,7 @@ function Board (props) {
 
   const [{ isOver}, drop] = useDrop({
     accept: ItemTypes.NOTE,
-    drop: (item) => props.dropNote(props.contents.title, item.id),
+    drop: (item) => props.dropNote(props.contents.title, item.ticketId),
     collect: monitor => ({
       isOver: !!monitor.isOver(),
     })

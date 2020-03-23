@@ -3,14 +3,12 @@ import "./newproject.scss";
 import axios from 'axios';
 
 export default class newProject extends React.Component {
-    constructor(props) {
-        super(props);
     
-        this.state = {
+    state = {
         display: false,
         foo: this.props.userId,
-        }
     }
+
 
     toggleForm = () => {
         this.setState({ display: !this.state.display });
@@ -30,18 +28,21 @@ export default class newProject extends React.Component {
         .then( res => console.log(res))
         .catch( err => console.log(err));
 
-        this.props.newfnc(id)
-        
+        this.joinUserProject(id);
+
         e.target.reset();
     }
 
-    componentDidMount() {
-        console.log("newProject component did mount")
-        console.log(this.props.userId)
-        this.setState ({
-            foo: this.props.userId
-        })
-        console.log(this.state)
+    joinUserProject (projectId) {
+
+        const userProject = {
+            UserId: Number(this.props.userId),
+            ProjectId: projectId,
+        }
+
+        axios.post('http://localhost:8080/database/projects/join', userProject)
+        .then( res => console.log(res))
+        .catch( err => console.log(err));
     }
 
     render (){
@@ -50,7 +51,9 @@ export default class newProject extends React.Component {
             <div className="newProject">
 
                 {!this.state.display && (
-                    <button class="newProject__button" onClick={this.toggleForm}>Create New Project</button>
+                    <div className="newProject__create">
+                        <button className="newProject__button" onClick={this.toggleForm}>Create New Project!</button>
+                    </div>
                 )}
 
                 {this.state.display && (                    

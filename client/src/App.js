@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch,} from 'react-router-dom';
-import Home from './pages/home/home'
+import Home from './pages/home/home';
 import './App.scss';
 import Login from './pages/login/login';
 import User from './pages/user/user';
@@ -11,7 +11,7 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path='/project/:id?' component={Project} />
+          <Route path='/project/:projectId' component={Project} />
           <Route path ='/user' component={User} />
           <Route path ='/login' component={Login} />
           <Route exact path='/' component={Home} />

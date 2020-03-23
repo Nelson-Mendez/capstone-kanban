@@ -1,5 +1,5 @@
 
-.newProject {
+.joinProject {
 
     display:flex;
     flex-direction: column;
@@ -18,7 +18,7 @@
 
     &:hover, &:focus {
         box-shadow: 10px 10px 7px rgba(0,0,0,.7);
-        transform: scale(2.55);
+        transform: scale(2.5);
         font-size: x-small;
         cursor: pointer;
     }
@@ -28,7 +28,7 @@
         border: none;
         font-size: 2rem;
         font-weight: bold;
-        margin: 3.5rem 1.5rem;
+        margin: 1.5rem;
     }
 
     &__form {
@@ -38,4 +38,12 @@
         display: flex;
         flex-direction: column;
     }
+
+    &__foo {
+        width:1.5rem;
+        height:1.5rem;
+        margin: 0 0.5rem 1.75rem;
+        box-shadow: 2px 2px 2px rgba(33, 33, 33, 0.3);
+    }
 }
+

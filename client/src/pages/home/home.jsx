@@ -6,13 +6,17 @@ import "./home.scss";
 export default function Home () {
 
     return (
-        <>
-            <h1>Home page hyyyppeeee</h1>
-            <a href="http://localhost:8080/auth">
-            {/* ?redirect_uri=http://localhost:3000/user */}
-                <h3>Log in with github!</h3>
-            </a>
+        <div className="splash">
 
-        </>
+            <div className="splash__content">
+                <h1 className="splash__title">Welcome to Simple Kanban!</h1>
+                <h3>To continue on,</h3>
+
+                <a href="http://localhost:8080/auth">
+                    <img className="splash__image" src={'https://coderwall-assets-0.s3.amazonaws.com/uploads/picture/file/4363/github.png'} alt="github.png"/>
+                </a>
+            </div>
+
+        </div>
     )
 }

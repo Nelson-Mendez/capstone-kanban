@@ -2,9 +2,6 @@ const router = require("express").Router();
 const mysql = require('mysql');
 const configStuff = require("../config");
 
-
-const SELECT_ALL_PROJECTS = 'SELECT * FROM projects';
-
 const connection = mysql.createConnection({
     host: configStuff.host,
     user: configStuff.user,
@@ -36,70 +33,99 @@ router.get('/', (req, res) =>{
 ///////////////////////////////////////////////////
 
 router.post('/user', (req, res) => {
-    // console.log(req)
 
-    // const { id, displayName } = req.body;
+    console.log('post to /user')
+    console.log(req.body);;
 
-    let id = "id goes here"
-    let displayName = "display name goes here"
+    const { userId, displayName } = req.body;
 
-    // connection.query(`INSERT INTO users VALUES (${id}, ${displayName})`);
-    return (res.send(req))
-    // return res.send(`user (probably) added with info: ${id}, ${displayName}`)
+    console.log(userId, displayName);
+    const TEST_USER_QUERY = `SELECT * FROM users WHERE UserId = '${userId}'`;
+    const INSERT_USER_QUERY = `INSERT INTO users (UserId, DisplayName) VALUES ('${userId}', '${displayName}')`;
+
+    connection.query(TEST_USER_QUERY, (err, results) => {
+        if (err) return res.send(err)
+        if (!results.length) {
+            connection.query(INSERT_USER_QUERY, (error, resultss) => {
+                if (error) return res.send(error)
+                else return res.send(`User added to database!`)
+            })
+        }
+        else return res.send(`User already exists!`)
+    })
 })
 
 router.post('/projects/new', (req, res) => {
 
-    console.log('accessed post request to /projects/new');
-    console.log(req.body)
-
-    // return res.send(req.body);
-
     const { projectId, projectName } = req.body;
-
-    console.log(projectId);
-
     const INSERT_PROJECT_QUERY = `INSERT INTO projects (ProjectId, ProjectName) VALUES ('${projectId}', '${projectName}')`;
 
-    connection.query(INSERT_PROJECT_QUERY, (error, results) =>{
+    connection.query(INSERT_PROJECT_QUERY, (error, results) => {
         if (error) return res.send(error)
-        else return res.send(`successfully added project with id and name of ${projectId} and ${projectName}`)
+        else return res.send(`Successfully created new project!`)
     })
 })
 
-router.get('/projects', (req, res) => {
+router.get('/projects/:userId', (req, res) => {
 
-    connection.query('SHOW TABLES ', (err, result) => {
+    const { userId } = req.params;
+
+    const SELECT_PROJECTS_QUERY = `SELECT * FROM kanban.user_project
+    LEFT JOIN kanban.projects
+    ON kanban.projects.ProjectId = kanban.user_project.ProjectId
+    where UserId = '${userId}'`
+
+    connection.query(SELECT_PROJECTS_QUERY, (err, result) => {
         if (err) return res.send(err); 
-        else{
-            return res.json({
-                data: result,
-            })
-        }
+        else return res.json({result})
     })
 
 });
 
 // POST REQUEST TO USER-PROJECT TABLE
 router.post('/projects/join', (req, res) => {
-
-    const { userId, projectId } = req.body;
-    const INSERT_PROJECT_USER_QUERY = `INSERT INTO user_project (UserId, ProjectId) VALUES (${userId}, ${projectId})`;
+            
+    const { UserId, ProjectId } = req.body;
+    const INSERT_PROJECT_USER_QUERY = `INSERT INTO user_project (UserId, ProjectId) VALUES ('${UserId}', '${ProjectId}')`;
 
     connection.query(INSERT_PROJECT_USER_QUERY, (error, results) => {
         if (error) return res.send(error)
-        else return res.send(`success on user-project`)        
+        else return res.send(`Added User-Project relation!`)        
     });
 })
 
-router.post('/projects/ticket', (req, res) => {
-    const { id, title, user, description, color, status, project } = req.body;
+router.get('/tickets/:projectId', (req, res) => {
+    
+    const { projectId } = req.params;
+    const SELECT_TICKETS_QUERY = `SELECT * FROM tickets WHERE ProjectId = '${projectId}'`;
 
-    connection.query(`INSERT INTO tickets 
-    (TicketId, ProjectId, UserId, Title, Status, Description, Color) 
-    VALUES (${id}, ${project}, ${user}, ${title}, ${status}, ${description}, ${status})`);
+    connection.query(SELECT_TICKETS_QUERY, (error, results) => {
+        if (error) return res.send(error)
+        else return res.json({results})
+    });
+})
 
-    return res.send(`probably added a whole buncha shit do a ticket table`)
+router.put('/tickets', (req, res) => {
+
+    const { TicketId, Status } = req.body;
+    const UPDATE_TICKET_QUERY =  `UPDATE tickets SET Status = '${Status}' WHERE TicketId = '${TicketId}'`;
+
+    connection.query(UPDATE_TICKET_QUERY, (error, response) => {
+        if (error) return res.send(error)
+        else return res.send('updated ticket!') 
+    })
+})
+
+router.post('/tickets', (req, res) => {
+
+    const  { ticketId, projectId, user, title, status, description, color } = req.body;
+    const INSERT_TICKET_QUERY = `INSERT INTO tickets (TicketId, ProjectId, User, Title, Status, Description, Color) 
+    VALUES ('${ticketId}', '${projectId}', '${user}', '${title}', '${status}', '${description}', '${color}')`
+
+    connection.query(INSERT_TICKET_QUERY, (error, response) => {
+        if (error) return res.send(error)
+        else return res.send('t was a good job!')  
+    });
 })
 
 module.exports = router
