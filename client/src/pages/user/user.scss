@@ -2,13 +2,14 @@
     height: 100vh;
     width: 100vw;
     background-repeat: no-repeat;
+    background-size: 100%;
     background-size: cover;
     display: flex;
     flex-direction: column;
     background-image: url(../../assets/images/eMdVo9.jpg);
 
     &__title {
-        margin-top: 6rem;
+        margin-top: 4rem;
     }
 
     &__options {
@@ -23,9 +24,7 @@
     &__create-join {
         margin-top: 3rem;
     }
-    &__section {
-        
-    }
+  
 }
 
 

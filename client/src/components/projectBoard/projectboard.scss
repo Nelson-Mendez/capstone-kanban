@@ -1,10 +1,12 @@
 .board {
   position:relative;
+  margin-top: 1rem;
+  height: 96vh;
   width: 30%;
   border: 1px dashed red;
-  height: 80vh;
 
   &__title {
     margin-top: 1rem;
+    display: blo
   }
 }

@@ -39,29 +39,12 @@ export default class Project extends React.Component {
       Status: status
     }
 
-    console.log(updateData);
-
     axios.put('http://localhost:8080/database/tickets', updateData)
     .then (res => {
       this.setState ({
         needsUpdate: true,
       })
     })
-/////////////////////////////////////////////////      UPDATE `kanban`.`tickets` SET `Status` = 'Complete' WHERE (`TicketId` = '941549842');
-    // let newList = this.state.noteList
-
-    // newList.forEach(note => {
-    //   if (note.id === noteId){
-    //     note.status = box
-    //   }
-    // })
-
-    // axios.put('http://localhost:8080/project/change', newList)
-    // .then (res => {
-    //   this.setState({ 
-    //     noteList: res.data,
-    //   })
-    // })
   }
 
   getTickets = () => {
@@ -96,7 +79,11 @@ export default class Project extends React.Component {
     console.log("ticket info: ", ticket);
 
     axios.post('http://localhost:8080/database/tickets', ticket)
-    .then( response => console.log(response))
+    .then( response => {
+      console.log(response)
+      this.getTickets();
+      this.toggleModal();
+    })
     .catch( error => console.log(error))
 
     event.target.reset();
@@ -115,6 +102,7 @@ export default class Project extends React.Component {
 
 
   render () {
+
     return (
 
       <DndProvider backend={Backend} >
@@ -125,21 +113,21 @@ export default class Project extends React.Component {
             <>
               <Board dropNote={this.dropNote} contents={{title: "TODO"}} >
               {this.state.ticketList.map(note => {
-                  if(note.Status === 'TODO') return <Note contents={note} />                        
+                  if(note.Status === 'TODO') return <Note key={note.TicketId} contents={note} />                        
                   else return null
                 })}
               </Board>
 
               <Board dropNote={this.dropNote} contents={{title: "In Progress"}}>
                 {this.state.ticketList.map(note => {
-                  if(note.Status === "In Progress") return <Note contents={note} />
+                  if(note.Status === "In Progress") return <Note key={note.TicketId} contents={note} />
                   else return null
                 })}
               </Board>
 
               <Board dropNote={this.dropNote} contents={{title: "Complete"}} >
               {this.state.ticketList.map(note => {
-                  if(note.Status === "Complete") return <Note contents={note} />
+                  if(note.Status === "Complete") return <Note key={note.TicketId} contents={note} />
                   else return null
                 })}
               </Board>

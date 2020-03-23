@@ -17,7 +17,7 @@ export default class newProject extends React.Component {
 
         for (let i=0; i<num; i++) {
             const noteColor = randomColor({luminosity: 'light'})
-            table.push(<div className="joinProject__foo" style={{backgroundColor: noteColor}}></div>)
+            table.push(<div className="joinProject__foo" key={i} style={{backgroundColor: noteColor}}></div>)
         }
 
         return table
@@ -32,7 +32,7 @@ export default class newProject extends React.Component {
         this.setState({ display: true });
     }
 
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
        
         let joinProject = {
@@ -41,8 +41,13 @@ export default class newProject extends React.Component {
         };
 
         axios.post('http://localhost:8080/database/projects/join', joinProject)
-        .then( res => console.log(res))
+        .then( res => {
+            console.log(res)
+            this.props.getProjects(this.props.userId);
+        })
         .catch( err => console.log(err));
+
+        this.formOff();
 
         e.target.reset();
     }
@@ -52,19 +57,23 @@ export default class newProject extends React.Component {
         return (
             <div className="joinProject" >
 
-                {!this.state.display && ( <div onClick={this.formOn}>
+                {!this.state.display && ( <div className="joinProject__wrap" onClick={this.formOn}>
                     <button className="joinProject__button" >Join a project!</button>
                     <div className="bar">{this.createImage()}</div>
                 </div>)}
 
                 {this.state.display && (                    
-                    <form className="joinProject__form" onSubmit={this.handleSubmit.bind(this)}>
+                    <form className="joinProject__form" onSubmit={this.handleSubmit}>
 
-                        <label htmlFor="name"><b>Enter The Project Id Here!</b></label>
-                        <input type="text" placeholder="Project Id!" name="id" required />
+                        <h3 className="joinProject__header--form" >Enter The Project Id Here!</h3>
+                        <input type="text" placeholder="Project Id!" className="joinProject__input"
+                        autoComplete="off" name="id" required />
 
-                        <button type="submit" className="joinProject__submitBtn">Join!</button>
-                        <button type="button" className="joinProject__cancelBtn" onClick={this.formOff}>Close</button>
+                        <div>
+                            <button type="submit" className="joinProject__btn">Join!</button>
+                            <button type="button" className="joinProject__btn" onClick={this.formOff}>Close</button>
+                            <p>The Project Id is in the URL of the project itself!</p>
+                        </div>
                     </form>
                 )}
             </div>

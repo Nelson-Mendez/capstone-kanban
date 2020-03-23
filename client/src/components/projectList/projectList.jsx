@@ -6,11 +6,6 @@ export default function ProjectList (props) {
 
     const { allProjects } = props;
 
-    // const allProjects = 0;
-
-    console.log(allProjects.length)
-
-
     return (
         <div className="projectList">
             {!!allProjects.length && <>

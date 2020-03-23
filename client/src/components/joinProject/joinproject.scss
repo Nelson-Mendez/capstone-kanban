@@ -18,9 +18,21 @@
 
     &:hover, &:focus {
         box-shadow: 10px 10px 7px rgba(0,0,0,.7);
-        transform: scale(2.5);
+        transform: scale(2.55);
         font-size: x-small;
         cursor: pointer;
+    }
+    &__form {
+        font-size: 0.5rem;
+        margin: auto;
+        margin-top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    &__wrap {
+        height:100%;
     }
 
     &__button {
@@ -44,6 +56,36 @@
         height:1.5rem;
         margin: 0 0.5rem 1.75rem;
         box-shadow: 2px 2px 2px rgba(33, 33, 33, 0.3);
+    }
+
+    &__header {
+        padding-top: 3rem;
+        font-size: 2rem;
+
+        &--form{
+            padding-top: 1rem;
+            font-size: 1.5rem;
+        }
+    }
+
+    &__input {
+        height: 2rem;
+        width: 75%;
+        margin: 1rem 0 0.5rem;
+        background: rgba(255,255,255,0.8);
+        border: 1px solid darkgrey; 
+        text-align: center;
+
+        &:focus {
+            border: 1px solid #C19A6B;
+            outline: none;
+        }
+    }
+
+    &__btn {
+        width: 25%;
+        height:1.5rem;
+       margin: 0.25rem 1rem
     }
 }
 

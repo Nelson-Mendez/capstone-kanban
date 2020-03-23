@@ -86,6 +86,8 @@ router.get('/projects/:userId', (req, res) => {
 router.post('/projects/join', (req, res) => {
             
     const { UserId, ProjectId } = req.body;
+    const TEST_PROJECT_QUERY = `SELECT * FROM projects WHERE UserId = '${userId}'`;
+
     const INSERT_PROJECT_USER_QUERY = `INSERT INTO user_project (UserId, ProjectId) VALUES ('${UserId}', '${ProjectId}')`;
 
     connection.query(INSERT_PROJECT_USER_QUERY, (error, results) => {

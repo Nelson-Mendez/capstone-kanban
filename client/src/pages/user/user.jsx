@@ -49,23 +49,12 @@ export default class Projects extends React.Component {
     }
 
 
-    getProjects (foobar) {
-        axios.get(`http://localhost:8080/database/projects/${foobar}`)
+    getProjects = (userId) => {
+        axios.get(`http://localhost:8080/database/projects/${userId}`)
         .then(res => this.setState({ projectList: res.data.result }))
         .catch(error => console.log(error));
     }
-    // joinUserProject(projectId) {
 
-    //     const foo = {
-    //         UserId: this.state.userData.id,
-    //         ProjectId: projectId
-    //     }
-        
-    //     axios.post('http://localhost:8080/database/projects/join', foo)
-    //     .then( res => console.log(res))
-    //     .catch( err => console.log(err));
-
-    // }
 
     componentDidMount () {
         this.getUserData();
@@ -87,8 +76,8 @@ export default class Projects extends React.Component {
                         allProjects={this.state.projectList}
                         />
                         <div className="profile__create-join">
-                            <AddProject className="profile__section" userId={id} />
-                            <JoinProject userId={id} />
+                            <AddProject className="profile__section" userId={id} getProjects={this.getProjects}/>
+                            <JoinProject userId={id} getProjects={this.getProjects} />
                         </div>
                     </div>
                 }

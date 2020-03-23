@@ -14,7 +14,7 @@ export default function Project (props) {
 
         for (let i=0; i<num; i++) {
             const noteColor = randomColor({luminosity: 'light'})
-            table.push(<div className="foo" style={{backgroundColor: noteColor}}></div>)
+            table.push(<div className="foo" key={i} style={{backgroundColor: noteColor}}></div>)
         }
 
         return table

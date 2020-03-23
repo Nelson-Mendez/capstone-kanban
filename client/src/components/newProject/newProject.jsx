@@ -6,15 +6,17 @@ export default class newProject extends React.Component {
     
     state = {
         display: false,
-        foo: this.props.userId,
     }
 
-
-    toggleForm = () => {
-        this.setState({ display: !this.state.display });
+    formOff = () => {
+        this.setState({ display: false });
     }
 
-    handleSubmit(e) {
+    formOn = () => {
+        this.setState({ display: true });
+    }
+
+    handleSubmit = (e) => {
         e.preventDefault();
 
         let id = Math.floor(Math.random() * 100000000);
@@ -25,10 +27,14 @@ export default class newProject extends React.Component {
         };
 
         axios.post('http://localhost:8080/database/projects/new', newProject)
-        .then( res => console.log(res))
+        .then( res => {
+            console.log(res)
+            this.joinUserProject(id);
+        })
         .catch( err => console.log(err));
 
-        this.joinUserProject(id);
+        
+        this.formOff()
 
         e.target.reset();
     }
@@ -41,8 +47,12 @@ export default class newProject extends React.Component {
         }
 
         axios.post('http://localhost:8080/database/projects/join', userProject)
-        .then( res => console.log(res))
+        .then( (res) => {
+            console.log(res);
+            this.props.getProjects(this.props.userId)
+        })
         .catch( err => console.log(err));
+
     }
 
     render (){
@@ -50,20 +60,18 @@ export default class newProject extends React.Component {
         return (
             <div className="newProject">
 
-                {!this.state.display && (
-                    <div className="newProject__create">
-                        <button className="newProject__button" onClick={this.toggleForm}>Create New Project!</button>
-                    </div>
-                )}
+                {!this.state.display && ( <div className="newProject__wrap" onClick={this.formOn}>
+                    <h3 className="newProject__header">Create a new Board!</h3>
+                </div>)}
 
                 {this.state.display && (                    
-                    <form className="newProject__form" onSubmit={this.handleSubmit.bind(this)}>
+                    <form className="newProject__form" onSubmit={this.handleSubmit}>
 
-                        <label htmlFor="name"><b>Name your project!</b></label>
-                        <input type="text" placeholder="Enter a project name here!" name="name" required />
+                        <h3 className="newProject__header--form">Name your project!</h3>
+                        <input type="text" className="newProject__input" autoComplete="off" placeholder="Enter a project name here!" name="name" required />
 
-                        <button type="submit" className="newProject__submitBtn">Create!</button>
-                        <button type="button" className="newProject__cancelBtn" onClick={this.toggleForm}>Close</button>
+                        <button type="submit" className="newProject__btn">Create</button>
+                        <button type="button" className="newProject__btn" onClick={this.formOff}>Close</button>
                     </form>
                 )}
             </div>
