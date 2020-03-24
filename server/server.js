@@ -24,8 +24,8 @@ passport.deserializeUser((user, cb) => {
 });
 
 passport.use(new GithubStrategy({
-  clientID: configStuff.clientID,
-  clientSecret: configStuff.clientSecret,
+  clientID: configStuff.passport.clientID,
+  clientSecret: configStuff.passport.clientSecret,
   callbackURL: "/auth/callback"
   },
   (accessToken, refreshToken, profile, cb) => {
