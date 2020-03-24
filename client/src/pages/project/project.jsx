@@ -43,7 +43,7 @@ export default class Project extends React.Component {
       Status: status
     }
 
-    axios.put('http://localhost:8080/database/tickets', updateData)
+    axios.put('/database/tickets', updateData)
     .then (res => {
       this.setState ({
         needsUpdate: true,
@@ -54,7 +54,7 @@ export default class Project extends React.Component {
   getTickets = () => {
     const { projectId } = this.props.match.params    
 
-    axios.get(`http://localhost:8080/database/tickets/${projectId}`)
+    axios.get(`/database/tickets/${projectId}`)
     .then( response => {
       this.setState({
         ticketList: response.data.results,
@@ -82,7 +82,7 @@ export default class Project extends React.Component {
 
     console.log("ticket info: ", ticket);
 
-    axios.post('http://localhost:8080/database/tickets', ticket)
+    axios.post('/database/tickets', ticket)
     .then( response => {
       console.log(response)
       this.getTickets();

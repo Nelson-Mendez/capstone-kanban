@@ -7,7 +7,7 @@ export default class Login extends React.Component {
     componentDidMount () {
         console.log("login page component has mounted!")
         Axios
-        .get ("http://localhost:8080/auth/login")
+        .get ("/auth/login")
         .then(res => {
             console.log(res);
         })

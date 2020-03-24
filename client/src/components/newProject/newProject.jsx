@@ -26,7 +26,7 @@ export default class newProject extends React.Component {
             projectName: e.target.name.value
         };
 
-        axios.post('http://localhost:8080/database/projects/new', newProject)
+        axios.post('/database/projects/new', newProject)
         .then( res => {
             console.log(res)
             this.joinUserProject(id);
@@ -46,7 +46,7 @@ export default class newProject extends React.Component {
             ProjectId: projectId,
         }
 
-        axios.post('http://localhost:8080/database/projects/join', userProject)
+        axios.post('/database/projects/join', userProject)
         .then( (res) => {
             console.log(res);
             this.props.getProjects(this.props.userId)

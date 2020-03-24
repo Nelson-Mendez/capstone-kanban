@@ -12,7 +12,7 @@ export default function Home () {
                 <h1 className="splash__title">Welcome to Simple Kanban!</h1>
                 <h3>To continue,</h3>
 
-                <a href="http://localhost:8080/auth">
+                <a href="/auth">
                     <img className="splash__image" src={'https://coderwall-assets-0.s3.amazonaws.com/uploads/picture/file/4363/github.png'} alt="github.png"/>
                 </a>
             </div>
