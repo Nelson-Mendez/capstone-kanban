@@ -16,6 +16,7 @@
     "react-modal": "^3.11.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "text-ellipsis": "^1.0.3",
     "uuid": "^7.0.2"
   },
   "scripts": {

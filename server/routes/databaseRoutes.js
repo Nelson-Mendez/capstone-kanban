@@ -34,12 +34,8 @@ router.get('/', (req, res) =>{
 
 router.post('/user', (req, res) => {
 
-    console.log('post to /user')
-    console.log(req.body);;
-
     const { userId, displayName } = req.body;
 
-    console.log(userId, displayName);
     const TEST_USER_QUERY = `SELECT * FROM users WHERE UserId = '${userId}'`;
     const INSERT_USER_QUERY = `INSERT INTO users (UserId, DisplayName) VALUES ('${userId}', '${displayName}')`;
 
@@ -86,14 +82,27 @@ router.get('/projects/:userId', (req, res) => {
 router.post('/projects/join', (req, res) => {
             
     const { UserId, ProjectId } = req.body;
-    const TEST_PROJECT_QUERY = `SELECT * FROM projects WHERE UserId = '${userId}'`;
-
+    const TEST_JOINED_QUERY = `SELECT * FROM projects WHERE ProjectId = '${ProjectId}'`;
+    const TEST_PROJECT_QUERY= `SELECT * FROM user_project WHERE UserId = '${UserId}' AND ProjectId = '${ProjectId}'`;
     const INSERT_PROJECT_USER_QUERY = `INSERT INTO user_project (UserId, ProjectId) VALUES ('${UserId}', '${ProjectId}')`;
 
-    connection.query(INSERT_PROJECT_USER_QUERY, (error, results) => {
-        if (error) return res.send(error)
-        else return res.send(`Added User-Project relation!`)        
-    });
+    connection.query(TEST_JOINED_QUERY, (err, results) => {
+        if (err) return res.send(err);
+
+        if(!results.length) return res.send("Sorry! The project doesn't exist!");
+        else {
+            connection.query(TEST_PROJECT_QUERY, (err, resultss) => {
+                if (err) return res.send(err);
+                if (resultss.length > 0) return res.send("Looks like you've already joined this project!");
+                else {
+                    connection.query(INSERT_PROJECT_USER_QUERY, (err, resultsss) => {
+                        if (err) return res.send(err)
+                        else return res.send(`Added User-Project relation!`)        
+                    })
+                } 
+            })
+        }
+    })
 })
 
 router.get('/tickets/:projectId', (req, res) => {

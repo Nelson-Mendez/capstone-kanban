@@ -3,26 +3,76 @@
     padding: 0;
 }
 
-li {
+.stickyNote {
     text-decoration:none;
     color:#000;
     background:#ffc;
-    display:block;
-    height: 6rem;
-    width: 6rem;
+    display: flex;
+    flex-direction: column;
+    height: 6.5rem;
+    width: 6.5rem;
     margin: 0.5rem;
     float: left;
-    box-shadow: 0.5rem 0.5rem 0.75rem rgba(33, 33, 33, 0.7);
+    box-shadow: 0.35rem 0.35rem 0.5rem rgba(33, 33, 33, 0.7);
     transition: transform .15s linear;
     overflow-wrap: break-word;
+    z-index: 99999;
+
+    &__hidden {
+        opacity: 0;
+        font-size: 0.5rem;
+    }
 
     &:hover, &:focus {
         box-shadow: 10px 10px 7px rgba(0,0,0,.7);
-        transform: scale(1.5);
+        transform:  scale(2.2);
+        font-size: smaller;
     }
 
-    // &:active {
-    //     transform: scale(4);
-    //     font-size: 0.25rem;
-    // }
+    &__title {
+        font-size: 1.5rem;
+    }
+
+    &__user {
+        font-size: 1rem;
+        margin-bottom: 0.2rem;
+    }
+
+    &__details {
+        font-size: 0.75rem;
+
+    }
+
+    &__large {
+        display: none;
+    }
+       
+
 }
+
+.stickyNote:hover {
+    .stickyNote {
+        &__large {
+            display:block;
+        }
+
+        &__title {
+            font-size: 12px;
+        }
+
+        &__user {
+            font-size: 10px;
+        }
+
+        &__large {
+            font-size: 8px;
+            margin: 0.125rem;
+        }
+    }
+
+    .stickyNote__details, .stickyNote__user, .stickyNote__title  {
+        display: none;
+    }
+
+}
+

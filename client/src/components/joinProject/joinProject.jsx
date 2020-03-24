@@ -72,7 +72,7 @@ export default class newProject extends React.Component {
                         <div>
                             <button type="submit" className="joinProject__btn">Join!</button>
                             <button type="button" className="joinProject__btn" onClick={this.formOff}>Close</button>
-                            <p>The Project Id is in the URL of the project itself!</p>
+                            <p>The Project Id is in the URL of the project itself! Try "12121" to test</p>
                         </div>
                     </form>
                 )}

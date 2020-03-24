@@ -22,19 +22,19 @@ export default class AddNoteModal extends React.Component {
       <>
         {this.props.isOpen && (
           <Modal isOpen={this.props.isOpen} 
-          className="modal__body" 
-          overlayClassName="modal__overlay"
+          className="modalForm__body" 
+          overlayClassName="modalForm__overlay"
           >
-            <form onSubmit={this.foobar} className="Note-modal-form">
-              <h2 className="Note-modal-form__heading">Create New</h2>
+            <form onSubmit={this.foobar} className="modalForm">
+              <h2 className="modalForm__heading">Create New Ticket</h2>
             
-              <input className="input" name="title" placeholder="Name of Ticket" />
-              <input className="input" name="user" placeholder="user" />
-              <input className="input" name="description" placeholder="description" />
+              <input className="modalForm__input" name="title" placeholder="Name of Ticket" required />
+              <input className="modalForm__input" name="user" placeholder="Who's working it?"/>
+              <textarea className="modalForm__input--big" name="description" placeholder="description, max length 150 characters" maxLength="150"/>
 
-              <div className="buttons">
-                <button className="buttons__save" type="submit">ADD TO BOARD</button>
-                <button className="buttons__cancel" onClick={this.props.toggleModal}>CANCEL</button>
+              <div className="modalForm__buttons">
+                <button className="modalForm__buttons--save" type="submit">ADD TO BOARD</button>
+                <button className="modalForm__buttons--cancel" onClick={this.props.toggleModal}>CANCEL</button>
               </div>
             </form>
           </Modal>

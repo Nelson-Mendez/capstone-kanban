@@ -4,6 +4,16 @@
   display:flex;
   flex-direction: row;
   justify-content: space-evenly;
+  background-color: #F0F8FF;
+  padding: 0 2.25rem;
+}
+.divider {
+	margin-top: 1rem;
+	width: 0.5rem;
+	border:  3px solid brown;
+	border-top: none;
+	border-bottom: none;
+	
 }
 
 

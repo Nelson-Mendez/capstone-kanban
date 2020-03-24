@@ -16,11 +16,11 @@ var randomColor = require('randomcolor');
 export default class Project extends React.Component {
 
   state = {
-      noteList: [],
       loadedNotes: false,
       needsUpdate: true,
       modalIsOpen: false,
       ticketList: [],
+      ticketDetails: {}
   };
 
   toggleModal = () => {
@@ -29,6 +29,10 @@ export default class Project extends React.Component {
 
   updateList = () => {
       this.setState({ needsUpdate: true});
+  }
+
+  toggleTicket = () => {
+    console.log("hello")
   }
 
   dropNote = (status, ticketId) => {
@@ -113,21 +117,40 @@ export default class Project extends React.Component {
             <>
               <Board dropNote={this.dropNote} contents={{title: "TODO"}} >
               {this.state.ticketList.map(note => {
-                  if(note.Status === 'TODO') return <Note key={note.TicketId} contents={note} />                        
+                  if(note.Status === 'TODO') return (
+                    <Note key={note.TicketId} 
+                    contents={note} 
+                    toggleTicket={this.toggleDetails} 
+                    display={this.state.ticketDetails} />
+                  )                        
                   else return null
                 })}
               </Board>
+
+              <div className="divider"></div>
 
               <Board dropNote={this.dropNote} contents={{title: "In Progress"}}>
                 {this.state.ticketList.map(note => {
-                  if(note.Status === "In Progress") return <Note key={note.TicketId} contents={note} />
+                  if(note.Status === "In Progress") return (
+                    <Note key={note.TicketId} 
+                    contents={note} 
+                    toggleTicket={this.toggleDetails}
+                    display={this.state.ticketDetails} />
+                  )   
                   else return null
                 })}
               </Board>
 
+              <div className="divider"></div>
+
               <Board dropNote={this.dropNote} contents={{title: "Complete"}} >
               {this.state.ticketList.map(note => {
-                  if(note.Status === "Complete") return <Note key={note.TicketId} contents={note} />
+                  if(note.Status === "Complete") return (
+                    <Note key={note.TicketId} 
+                    contents={note} 
+                    toggleTicket={this.toggleDetails} 
+                    display={this.state.ticketDetails} />
+                  )   
                   else return null
                 })}
               </Board>
@@ -144,7 +167,7 @@ export default class Project extends React.Component {
                 updateList={this.updateList}
                 projectId={this.props.match.params.projectId}
                 foo={this.handleSubmit}
-                />
+              />
 
               </>
               
