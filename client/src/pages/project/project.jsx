@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Note from '../../components/stickeyNote/StickyNote';
+import { Link } from 'react-router-dom';
 
 import { DndProvider } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
@@ -9,6 +10,7 @@ import AddNoteModal from '../../components/addNoteModal/addNoteModal';
 import Board from '../../components/projectBoard/projectBoard';
 import plusSign from '../../assets/icons/Icon-add.svg';
 import './project.scss';
+import backButton from '../../assets/icons/backButton.png';
 
 var randomColor = require('randomcolor');
 
@@ -112,6 +114,9 @@ export default class Project extends React.Component {
       <DndProvider backend={Backend} >
 
         <div className="mainPage">
+        <Link to={`/user`} >
+         <img src={`${backButton}`} className="backButton" />
+        </Link>
 
           {this.state.loadedNotes && 
             <>

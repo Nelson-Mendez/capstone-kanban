@@ -28,9 +28,9 @@ export default class AddNoteModal extends React.Component {
             <form onSubmit={this.foobar} className="modalForm">
               <h2 className="modalForm__heading">Create New Ticket</h2>
             
-              <input className="modalForm__input" name="title" placeholder="Name of Ticket" required />
-              <input className="modalForm__input" name="user" placeholder="Who's working it?"/>
-              <textarea className="modalForm__input--big" name="description" placeholder="description, max length 150 characters" maxLength="150"/>
+              <input className="modalForm__input" name="title" placeholder="Name of Ticket" required autoComplete="off"/>
+              <input className="modalForm__input" name="user" placeholder="Who's working it?" autoComplete="off"/>
+              <textarea className="modalForm__input--big" name="description" placeholder="description, max length 150 characters" autoComplete="off" maxLength="150"/>
 
               <div className="modalForm__buttons">
                 <button className="modalForm__buttons--save" type="submit">ADD TO BOARD</button>
