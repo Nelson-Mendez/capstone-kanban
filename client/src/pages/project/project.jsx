@@ -9,6 +9,7 @@ import Backend from 'react-dnd-html5-backend';
 import AddNoteModal from '../../components/addNoteModal/addNoteModal';
 import Board from '../../components/projectBoard/projectBoard';
 import plusSign from '../../assets/icons/Icon-add.svg';
+import WasteBin from '../../components/wasteBin/wasteBin';
 import './project.scss';
 import backButton from '../../assets/icons/backButton.png';
 
@@ -39,7 +40,6 @@ export default class Project extends React.Component {
 
   dropNote = (status, ticketId) => {
 
-    console.log()
     const updateData = {
       TicketId: ticketId,
       Status: status
@@ -51,6 +51,14 @@ export default class Project extends React.Component {
         needsUpdate: true,
       })
     })
+  }
+  
+  dropNoteBin = (ticketId) => {
+
+    axios.delete(`http://localhost:8080/database/tickets/${ticketId}`)
+    .then(res => this.setState ({ needsUpdate: true}))
+    .catch(err => console.log(err)
+    )
   }
 
   getTickets = () => {
@@ -82,11 +90,8 @@ export default class Project extends React.Component {
         color: ticketColor,  
     }
 
-    console.log("ticket info: ", ticket);
-
     axios.post('http://localhost:8080/database/tickets', ticket)
     .then( response => {
-      console.log(response)
       this.getTickets();
       this.toggleModal();
     })
@@ -115,7 +120,7 @@ export default class Project extends React.Component {
 
         <div className="mainPage">
         <Link to={`/user`} >
-         <img src={`${backButton}`} className="backButton" />
+         <img src={`${backButton}`} className="backButton" alt="" />
         </Link>
 
           {this.state.loadedNotes && 
@@ -173,6 +178,8 @@ export default class Project extends React.Component {
                 projectId={this.props.match.params.projectId}
                 foo={this.handleSubmit}
               />
+
+              <WasteBin dropNoteBin={this.dropNoteBin} />
 
               </>
               

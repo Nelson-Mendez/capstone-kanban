@@ -116,6 +116,17 @@ router.get('/tickets/:projectId', (req, res) => {
     });
 })
 
+router.delete('/tickets/:TicketId', (req, res) => {
+
+    const { TicketId } = req.params;
+    const DELETE_TICKET_QUERY = `DELETE FROM tickets WHERE TicketId = '${TicketId}'`;
+
+    connection.query(DELETE_TICKET_QUERY, (error, results) => {
+        if (error) return res.send(error)
+        else return res.json({results})
+    });
+})
+
 router.put('/tickets', (req, res) => {
 
     const { TicketId, Status } = req.body;
