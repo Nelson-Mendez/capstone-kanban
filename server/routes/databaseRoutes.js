@@ -127,6 +127,16 @@ router.delete('/tickets/:TicketId', (req, res) => {
     });
 })
 
+router.put('/tickets/edit', (req, res) => {
+    const { user, title, description, ticketId } = req.body;
+    const UPDATE_TICKET_QUERY = `UPDATE tickets SET User = '${user}', Title = '${title}', Description = '${description}' WHERE TicketId = '${ticketId}'`;
+
+    connection.query(UPDATE_TICKET_QUERY, (error, response) => {
+        if (error) return res.send(error)
+        else return res.send ('updated ticket!')
+    })
+})
+
 router.put('/tickets', (req, res) => {
 
     const { TicketId, Status } = req.body;

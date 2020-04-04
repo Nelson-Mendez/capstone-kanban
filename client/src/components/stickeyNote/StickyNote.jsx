@@ -10,7 +10,7 @@ function Note (props) {
     const { contents } = props;
 
     const [{ isDragging }, drag] = useDrag({
-      item: { ticketId: contents.TicketId, type: ItemTypes.NOTE },
+      item: { ticketId: contents.TicketId, ticketContents: contents, type: ItemTypes.NOTE },
       collect: monitor => ({
         isDragging: !!monitor.isDragging(),
       }),
