@@ -1,7 +1,7 @@
 import React from 'react';
 import { ItemTypes } from '../../partials/constants';
 import { useDrop } from 'react-dnd';
-import bin from '../../assets/images/bin.jpg';
+import bin from '../../assets/images/bin.png';
 import "./wastebin.scss";
 
 function WasteBin (props) {
@@ -12,9 +12,12 @@ function WasteBin (props) {
       })
 
      return (
-        <div ref={drop}>
+        <div ref={drop} >
             <img className="bin" src={bin} alt="" />
-            {props.children}
+            <div className="bin__text" >
+                <p>drop note here</p>
+                <p>to delete it!</p>
+            </div>
         </div>
     ) 
 }
