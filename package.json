@@ -4,10 +4,11 @@
   "description": "Server for Kanban Board",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "cd server & node server.js",
-    "client": "cd client & npm start"
+    "start": "node server.js",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "Nelson Mendez",
   "license": "ISC",
@@ -18,6 +19,7 @@
     "express-session": "^1.17.0",
     "helmet": "^3.21.3",
     "morgan": "^1.9.1",
+    "mysql": "^2.18.1",
     "passport": "^0.4.1",
     "passport-github": "^1.1.0"
   }

@@ -16,7 +16,7 @@ export default class Projects extends React.Component {
     }
 
     getUserData () {
-        axios.get(`http://localhost:8080/user/`)
+        axios.get(`http://localhost:8000/user/`)
         .then(res => {
 
             this.setState({
@@ -43,14 +43,14 @@ export default class Projects extends React.Component {
             displayName: DISPLAYNAME,
         }
 
-        axios.post('http://localhost:8080/database/user', userInfo)
+        axios.post('http://localhost:8000/database/user', userInfo)
         .then( response => console.log(response))
         .catch( error => console.log(error))
     }
 
 
     getProjects = (userId) => {
-        axios.get(`http://localhost:8080/database/projects/${userId}`)
+        axios.get(`http://localhost:8000/database/projects/${userId}`)
         .then(res => this.setState({ projectList: res.data.result }))
         .catch(error => console.log(error));
     }

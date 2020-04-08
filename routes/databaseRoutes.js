@@ -9,6 +9,9 @@ const connection = mysql.createConnection({
     database: configStuff.database,
 })
 
+// var connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+
 connection.connect(err => {if (err) return err});
 
 var del = connection._protocol._delegateError;
