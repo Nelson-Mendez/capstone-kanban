@@ -60,6 +60,7 @@ export default class Projects extends React.Component {
 
 
     componentDidMount () {
+        console.log("hello")
         this.getUserData();
     }
 

@@ -23,7 +23,6 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser((user, cb) => {
   cb(null, user);
 });
-
 app.use(cors());
 app.use(passport.initialize())
 app.use(express.json());
@@ -44,7 +43,7 @@ passport.use(new GithubStrategy({
 
 app.get("/auth/", passport.authenticate("github"));
 app.get("/auth/callback", passport.authenticate("github"), (req, res) => {
-  res.redirect("/user");
+  res.redirect("http://localhost:5000/user");
 });
 
 app.get('/user', (req, res) => {

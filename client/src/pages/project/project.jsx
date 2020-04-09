@@ -47,7 +47,7 @@ export default class Project extends React.Component {
       Status: status
     }
 
-    axios.put('${api}/database/tickets', updateData)
+    axios.put(`${api}/database/tickets`, updateData)
     .then (res => {
       this.setState ({
         needsUpdate: true,

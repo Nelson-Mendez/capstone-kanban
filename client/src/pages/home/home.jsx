@@ -19,7 +19,7 @@ export default function Home () {
                 <h3>To continue,</h3>
                 
                 {/* <button onClick={dothing} > */}
-                    <a href="/auth">
+                    <a href="http://localhost:8000/auth">
                     {/* <a href="/auth"> */}
                         <img className="splash__image" src={'https://coderwall-assets-0.s3.amazonaws.com/uploads/picture/file/4363/github.png'} alt="github.png"/>
                     </a>
