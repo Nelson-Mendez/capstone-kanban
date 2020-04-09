@@ -24,6 +24,11 @@ passport.deserializeUser((user, cb) => {
   cb(null, user);
 });
 
+app.use(cors());
+app.use(passport.initialize())
+app.use(express.json());
+app.use(bodyParser.json());
+
 passport.use(new GithubStrategy({
   clientID: configStuff.clientID,
   clientSecret: configStuff.clientSecret,
@@ -35,15 +40,11 @@ passport.use(new GithubStrategy({
   }
 ));
 
-app.use(cors());
-app.use(passport.initialize())
-app.use(express.json());
-app.use(bodyParser.json());
 
 
 app.get("/auth/", passport.authenticate("github"));
 app.get("/auth/callback", passport.authenticate("github"), (req, res) => {
-  res.redirect("http://localhost:5000/user");
+  res.redirect("/user");
 });
 
 app.get('/user', (req, res) => {

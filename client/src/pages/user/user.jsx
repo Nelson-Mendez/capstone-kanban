@@ -7,6 +7,9 @@ import JoinProject from '../../components/joinProject/joinProject'
 
 import './user.scss';
 
+const api = 'http://localhost:8000';
+
+
 export default class Projects extends React.Component {
     state = {
         projectList: [],
@@ -16,7 +19,7 @@ export default class Projects extends React.Component {
     }
 
     getUserData () {
-        axios.get(`http://localhost:8000/user/`)
+        axios.get(`${api}/user/`)
         .then(res => {
 
             this.setState({
@@ -43,14 +46,14 @@ export default class Projects extends React.Component {
             displayName: DISPLAYNAME,
         }
 
-        axios.post('http://localhost:8000/database/user', userInfo)
+        axios.post(`${api}/database/user`, userInfo)
         .then( response => console.log(response))
         .catch( error => console.log(error))
     }
 
 
     getProjects = (userId) => {
-        axios.get(`http://localhost:8000/database/projects/${userId}`)
+        axios.get(`${api}/database/projects/${userId}`)
         .then(res => this.setState({ projectList: res.data.result }))
         .catch(error => console.log(error));
     }

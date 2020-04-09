@@ -15,6 +15,7 @@ import backButton from '../../assets/icons/backButton.png';
 import './project.scss';
 
 var randomColor = require('randomcolor');
+const api = 'http://localhost:8000';
 
 export default class Project extends React.Component {
 
@@ -46,7 +47,7 @@ export default class Project extends React.Component {
       Status: status
     }
 
-    axios.put('http://localhost:8000/database/tickets', updateData)
+    axios.put('${api}/database/tickets', updateData)
     .then (res => {
       this.setState ({
         needsUpdate: true,
@@ -56,7 +57,7 @@ export default class Project extends React.Component {
   
   dropNoteBin = (ticketId) => {
 
-    axios.delete(`http://localhost:8000/database/tickets/${ticketId}`)
+    axios.delete(`${api}/database/tickets/${ticketId}`)
     .then(res => this.setState ({ needsUpdate: true}))
     .catch(err => console.log(err)
     )
@@ -82,7 +83,7 @@ export default class Project extends React.Component {
       ticketId: this.state.ticketDetails.TicketId
     }
 
-    axios.put('http://localhost:8000/database/tickets/edit', deets)
+    axios.put(`${api}/database/tickets/edit`, deets)
     .then (res => {
       this.setState ({
         needsUpdate: true,
@@ -95,7 +96,7 @@ export default class Project extends React.Component {
   getTickets = () => {
     const { projectId } = this.props.match.params    
 
-    axios.get(`http://localhost:8000/database/tickets/${projectId}`)
+    axios.get(`${api}/database/tickets/${projectId}`)
     .then( response => {
       this.setState({
         ticketList: response.data.results,
@@ -122,7 +123,7 @@ export default class Project extends React.Component {
       color: ticketColor  
     }
 
-    axios.post('http://localhost:8000/database/tickets', ticket)
+    axios.post(`${api}/database/tickets`, ticket)
     .then( response => {
       this.getTickets();
       this.toggleModal();

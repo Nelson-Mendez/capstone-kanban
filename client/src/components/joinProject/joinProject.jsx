@@ -4,6 +4,8 @@ import axios from 'axios';
 
 var randomColor = require('randomcolor');
 
+const api = 'http://localhost:8000';
+
 
 export default class newProject extends React.Component {
 
@@ -40,7 +42,7 @@ export default class newProject extends React.Component {
             ProjectId: Number(e.target.id.value),
         };
 
-        axios.post('http://localhost:8080/database/projects/join', joinProject)
+        axios.post(`${api}/database/projects/join`, joinProject)
         .then( res => {
             console.log(res)
             this.props.getProjects(this.props.userId);
