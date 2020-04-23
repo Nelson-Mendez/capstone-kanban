@@ -27,7 +27,6 @@ export default class Projects extends React.Component {
                 hasData: true,
 
             })
-            console.log(res.data)
             const userId = Number(res.data.id);
             const displayName = res.data.displayName;
             
@@ -44,7 +43,7 @@ export default class Projects extends React.Component {
         }
 
         axios.post(`/database/user`, userInfo)
-        .then( response => console.log(response))
+        // .then( response => console.log(response))
         .catch( error => console.log(error))
     }
 
@@ -57,7 +56,6 @@ export default class Projects extends React.Component {
 
 
     componentDidMount () {
-        console.log("hello")
         this.getUserData();
     }
 
