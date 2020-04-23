@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch,} from 'react-router-dom';
 import Home from './pages/home/home';
-import './App.scss';
 import Login from './pages/login/login';
 import User from './pages/user/user';
 import Project from './pages/project/project';
+import './App.scss';
 
 class App extends React.Component {
   render() {

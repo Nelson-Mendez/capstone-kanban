@@ -44,7 +44,7 @@ app.get("/auth/callback", passport.authenticate("github"), (req, res) => {
   res.redirect("https://simplified-kanban-nelson.herokuapp.com/user");
 });
 
-app.get('/user', (req, res) => {
+app.get('/backend/user', (req, res) => {
   res.send(user);
 });
 

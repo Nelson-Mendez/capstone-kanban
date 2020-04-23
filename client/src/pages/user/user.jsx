@@ -19,7 +19,7 @@ export default class Projects extends React.Component {
     }
 
     getUserData () {
-        axios.get('/user')
+        axios.get('/backend/user')
         .then(res => {
 
             this.setState({
@@ -50,7 +50,7 @@ export default class Projects extends React.Component {
 
 
     getProjects = (userId) => {
-        axios.get(`${api}/database/projects/${userId}`)
+        axios.get(`/database/projects/${userId}`)
         .then(res => this.setState({ projectList: res.data.result }))
         .catch(error => console.log(error));
     }
