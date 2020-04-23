@@ -1,11 +1,10 @@
 .mainPage {
-  height:100%;
-  width: 100vw;
+  height:98%;
+  width: 98%;
   display:flex;
   flex-direction: row;
   justify-content: space-evenly;
   background-color: #F0F8FF;
-  padding: 0 2.25rem;
 }
 .divider {
 	margin-top: 1rem;
@@ -23,6 +22,7 @@
 	position: fixed;
 	left: 1rem;
 	top:3rem;
+	z-index: 3;
 }
 
 .addButton {
@@ -31,7 +31,7 @@
 	border-radius:50%;
 	position: fixed;
 	bottom: 15%;
-	right: 7%;
+	right: 50%;
 	display:inline-block;
 	cursor:pointer;
 	width:6rem;

@@ -9,6 +9,9 @@ const connection = mysql.createConnection({
     database: configStuff.database,
 })
 
+// var connection = mysql.createConnection(process.env.JAWSDB_URL);
+
+
 connection.connect(err => {if (err) return err});
 
 var del = connection._protocol._delegateError;
@@ -114,6 +117,27 @@ router.get('/tickets/:projectId', (req, res) => {
         if (error) return res.send(error)
         else return res.json({results})
     });
+})
+
+router.delete('/tickets/:TicketId', (req, res) => {
+
+    const { TicketId } = req.params;
+    const DELETE_TICKET_QUERY = `DELETE FROM tickets WHERE TicketId = '${TicketId}'`;
+
+    connection.query(DELETE_TICKET_QUERY, (error, results) => {
+        if (error) return res.send(error)
+        else return res.json({results})
+    });
+})
+
+router.put('/tickets/edit', (req, res) => {
+    const { user, title, description, ticketId } = req.body;
+    const UPDATE_TICKET_QUERY = `UPDATE tickets SET User = '${user}', Title = '${title}', Description = '${description}' WHERE TicketId = '${ticketId}'`;
+
+    connection.query(UPDATE_TICKET_QUERY, (error, response) => {
+        if (error) return res.send(error)
+        else return res.send ('updated ticket!')
+    })
 })
 
 router.put('/tickets', (req, res) => {

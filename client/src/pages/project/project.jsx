@@ -1,19 +1,21 @@
 import React from 'react';
 import axios from 'axios';
-import Note from '../../components/stickeyNote/StickyNote';
 import { Link } from 'react-router-dom';
-
 import { DndProvider } from 'react-dnd';
 import Backend from 'react-dnd-html5-backend';
 
+import Note from '../../components/stickeyNote/StickyNote';
 import AddNoteModal from '../../components/addNoteModal/addNoteModal';
 import Board from '../../components/projectBoard/projectBoard';
 import plusSign from '../../assets/icons/Icon-add.svg';
-import './project.scss';
+import WasteBin from '../../components/wasteBin/wasteBin';
+import Edit from '../../components/editNote/editNote';
+import Workshop from '../../components/workshop/workshop';
 import backButton from '../../assets/icons/backButton.png';
+import './project.scss';
 
 var randomColor = require('randomcolor');
-
+const api = 'http://localhost:8000';
 
 export default class Project extends React.Component {
 
@@ -21,42 +23,80 @@ export default class Project extends React.Component {
       loadedNotes: false,
       needsUpdate: true,
       modalIsOpen: false,
+      workshopIsOpen: false,
       ticketList: [],
       ticketDetails: {}
   };
 
   toggleModal = () => {
-      this.setState ({ modalIsOpen: !this.state.modalIsOpen})
+    this.setState ({ modalIsOpen: !this.state.modalIsOpen})
+  }
+
+  toggleEdit = () => {
+    this.setState ({ workshopIsOpen: !this.state.workshopIsOpen})
   }
 
   updateList = () => {
-      this.setState({ needsUpdate: true});
-  }
-
-  toggleTicket = () => {
-    console.log("hello")
+    this.setState({ needsUpdate: true});
   }
 
   dropNote = (status, ticketId) => {
 
-    console.log()
     const updateData = {
       TicketId: ticketId,
       Status: status
     }
 
-    axios.put('http://localhost:8080/database/tickets', updateData)
+    axios.put(`${api}/database/tickets`, updateData)
     .then (res => {
       this.setState ({
         needsUpdate: true,
       })
     })
   }
+  
+  dropNoteBin = (ticketId) => {
+
+    axios.delete(`${api}/database/tickets/${ticketId}`)
+    .then(res => this.setState ({ needsUpdate: true}))
+    .catch(err => console.log(err)
+    )
+  }
+
+  dropNoteEdit = (item) => {
+
+    const { ticketContents } = item;
+
+    this.setState({
+      workshopIsOpen: !this.state.workshopIsOpen,
+      ticketDetails: ticketContents
+    })
+  }
+
+  updateNote = (event) => {
+    event.preventDefault();
+
+    const deets = {
+      title: event.target.title.value,
+      user: event.target.user.value,
+      description: event.target.description.value,
+      ticketId: this.state.ticketDetails.TicketId
+    }
+
+    axios.put(`${api}/database/tickets/edit`, deets)
+    .then (res => {
+      this.setState ({
+        needsUpdate: true,
+      })
+    })
+
+    this.toggleEdit();
+  }
 
   getTickets = () => {
     const { projectId } = this.props.match.params    
 
-    axios.get(`http://localhost:8080/database/tickets/${projectId}`)
+    axios.get(`${api}/database/tickets/${projectId}`)
     .then( response => {
       this.setState({
         ticketList: response.data.results,
@@ -69,24 +109,22 @@ export default class Project extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { projectId } = this.props.match.params
-    const ticketColor = randomColor({luminosity: 'light'})
+
+    const { projectId } = this.props.match.params;
+    const ticketColor = randomColor({luminosity: 'light'});
     const id = Math.floor(Math.random() * 1000000000);
 
     const ticket = { ticketId: id,
-        projectId: Number(projectId),
-        user: event.target.user.value,
-        title: event.target.title.value,
-        status: 'TODO',
-        description: event.target.description.value, 
-        color: ticketColor,  
+      projectId: Number(projectId),
+      user: event.target.user.value,
+      title: event.target.title.value,
+      status: 'TODO',
+      description: event.target.description.value, 
+      color: ticketColor  
     }
 
-    console.log("ticket info: ", ticket);
-
-    axios.post('http://localhost:8080/database/tickets', ticket)
+    axios.post(`${api}/database/tickets`, ticket)
     .then( response => {
-      console.log(response)
       this.getTickets();
       this.toggleModal();
     })
@@ -100,85 +138,85 @@ export default class Project extends React.Component {
   }
 
   componentDidUpdate (_, prevState) {
-      if (this.state.needsUpdate && prevState.loadedNotes === true) {
-          this.setState({ loadedNotes: false});
-          this.getTickets();
+      if (this.state.needsUpdate && prevState.loadedNotes) {
+        this.setState({ loadedNotes: false});
+        this.getTickets();
       }
   }
-
 
   render () {
 
     return (
-
       <DndProvider backend={Backend} >
 
         <div className="mainPage">
+        
         <Link to={`/user`} >
-         <img src={`${backButton}`} className="backButton" />
+         <img src={`${backButton}`} className="backButton" alt="" />
         </Link>
 
-          {this.state.loadedNotes && 
-            <>
-              <Board dropNote={this.dropNote} contents={{title: "TODO"}} >
+        {this.state.loadedNotes && 
+          <>
+            <Board dropNote={this.dropNote} contents={{title: "TODO"}} >
               {this.state.ticketList.map(note => {
-                  if(note.Status === 'TODO') return (
-                    <Note key={note.TicketId} 
-                    contents={note} 
-                    toggleTicket={this.toggleDetails} 
-                    display={this.state.ticketDetails} />
-                  )                        
-                  else return null
-                })}
-              </Board>
+                if(note.Status === 'TODO') return (
+                  <Note key={note.TicketId} contents={note} />
+                )                        
+                else return null
+              })}
+            </Board>
 
-              <div className="divider"></div>
+            <div className="divider"></div>
 
-              <Board dropNote={this.dropNote} contents={{title: "In Progress"}}>
-                {this.state.ticketList.map(note => {
-                  if(note.Status === "In Progress") return (
-                    <Note key={note.TicketId} 
-                    contents={note} 
-                    toggleTicket={this.toggleDetails}
-                    display={this.state.ticketDetails} />
-                  )   
-                  else return null
-                })}
-              </Board>
-
-              <div className="divider"></div>
-
-              <Board dropNote={this.dropNote} contents={{title: "Complete"}} >
+            <Board dropNote={this.dropNote} contents={{title: "In Progress"}}>
               {this.state.ticketList.map(note => {
-                  if(note.Status === "Complete") return (
-                    <Note key={note.TicketId} 
-                    contents={note} 
-                    toggleTicket={this.toggleDetails} 
-                    display={this.state.ticketDetails} />
-                  )   
-                  else return null
-                })}
-              </Board>
+                if(note.Status === "In Progress") return (
+                  <Note key={note.TicketId} contents={note} />
+                )   
+                else return null
+              })}
+            </Board>
 
-              <button className="addButton" onClick={this.toggleModal}>
-                <img className="addButton__plus" src={plusSign} alt="plus sign" />
-              </button>
+            <div className="divider"></div>
 
-              <AddNoteModal
-                isOpen={this.state.modalIsOpen}
-                contentLabel="onRequestClose"
-                toggleModal={this.toggleModal}
-                portalClassName="AddProductModal"
-                updateList={this.updateList}
-                projectId={this.props.match.params.projectId}
-                foo={this.handleSubmit}
+            <Board dropNote={this.dropNote} contents={{title: "Complete"}} >
+              {this.state.ticketList.map(note => {
+                if(note.Status === "Complete") return (
+                  <Note key={note.TicketId} contents={note} />
+                )   
+                else return null
+              })}
+            </Board>
+
+            <button className="addButton" onClick={this.toggleModal}>
+              <img className="addButton__plus" src={plusSign} alt="plus sign" />
+            </button>
+
+            <AddNoteModal
+              isOpen={this.state.modalIsOpen}
+              contentLabel="onRequestClose"
+              toggleModal={this.toggleModal}
+              portalClassName="AddProductModal"
+              updateList={this.updateList}
+              projectId={this.props.match.params.projectId}
+              foo={this.handleSubmit}
+            />
+
+            <WasteBin dropNoteBin={this.dropNoteBin} />
+            
+            <Edit dropNoteEdit={this.dropNoteEdit}/>
+
+            {this.state.workshopIsOpen && 
+              <Workshop 
+                contents={this.state.ticketDetails} 
+                toggle={this.dropNoteEdit}
+                updateNote={this.updateNote}
               />
-
-              </>
-              
             }
+          </>
+        }
         </div>
-        </DndProvider>
-        );
+      </DndProvider>
+    )
   }
 }
