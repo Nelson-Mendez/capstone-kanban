@@ -19,7 +19,7 @@ export default class Projects extends React.Component {
     }
 
     getUserData () {
-        axios.get(`${api}/user/`)
+        axios.get('/user')
         .then(res => {
 
             this.setState({
@@ -27,15 +27,12 @@ export default class Projects extends React.Component {
                 hasData: true,
 
             })
-
             
             const userId = Number(res.data.id);
             const displayName = res.data.displayName;
             
             this.sendUser(userId, displayName);
-            this.getProjects(userId);
-
-            
+            this.getProjects(userId);            
         })
         .catch(err => console.log("Error ", err));
     } 
@@ -46,7 +43,7 @@ export default class Projects extends React.Component {
             displayName: DISPLAYNAME,
         }
 
-        axios.post(`${api}/database/user`, userInfo)
+        axios.post(`/database/user`, userInfo)
         .then( response => console.log(response))
         .catch( error => console.log(error))
     }
