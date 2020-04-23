@@ -8,7 +8,7 @@ export default function ProjectList (props) {
 
     return (
         <div className="projectList">
-            {!!allProjects.length && <>
+            {allProjects && <>
                 <h2 className="projectList__header">Select a project to work on!</h2>
                 <div className="projectList__projects">
                     {allProjects.map(projects => {
