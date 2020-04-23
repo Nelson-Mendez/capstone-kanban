@@ -69,9 +69,9 @@ router.get('/projects/:userId', (req, res) => {
 
     const { userId } = req.params;
 
-    const SELECT_PROJECTS_QUERY = `SELECT * FROM kanban.user_project
-    LEFT JOIN kanban.projects
-    ON kanban.projects.ProjectId = kanban.user_project.ProjectId
+    const SELECT_PROJECTS_QUERY = `SELECT * FROM user_project
+    LEFT JOIN projects
+    ON projects.ProjectId = user_project.ProjectId
     where UserId = '${userId}'`
 
     connection.query(SELECT_PROJECTS_QUERY, (err, result) => {
