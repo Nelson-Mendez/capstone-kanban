@@ -17,7 +17,7 @@ export default function ProjectList (props) {
                 </div>
             </>}
 
-            {!allProjects.length && <>
+            {allProjects && <>
                 <h2>Looks like you don't have any projects going on!</h2>
                 <h3>Click one of the options below to get started</h3> 
             </>}
