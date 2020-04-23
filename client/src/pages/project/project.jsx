@@ -47,7 +47,7 @@ export default class Project extends React.Component {
       Status: status
     }
 
-    axios.put(`${api}/database/tickets`, updateData)
+    axios.put(`/database/tickets`, updateData)
     .then (res => {
       this.setState ({
         needsUpdate: true,
@@ -57,7 +57,7 @@ export default class Project extends React.Component {
   
   dropNoteBin = (ticketId) => {
 
-    axios.delete(`${api}/database/tickets/${ticketId}`)
+    axios.delete(`/database/tickets/${ticketId}`)
     .then(res => this.setState ({ needsUpdate: true}))
     .catch(err => console.log(err)
     )
@@ -83,7 +83,7 @@ export default class Project extends React.Component {
       ticketId: this.state.ticketDetails.TicketId
     }
 
-    axios.put(`${api}/database/tickets/edit`, deets)
+    axios.put(`/database/tickets/edit`, deets)
     .then (res => {
       this.setState ({
         needsUpdate: true,
@@ -96,7 +96,7 @@ export default class Project extends React.Component {
   getTickets = () => {
     const { projectId } = this.props.match.params    
 
-    axios.get(`${api}/database/tickets/${projectId}`)
+    axios.get(`/database/tickets/${projectId}`)
     .then( response => {
       this.setState({
         ticketList: response.data.results,
@@ -123,7 +123,7 @@ export default class Project extends React.Component {
       color: ticketColor  
     }
 
-    axios.post(`${api}/database/tickets`, ticket)
+    axios.post(`/database/tickets`, ticket)
     .then( response => {
       this.getTickets();
       this.toggleModal();
