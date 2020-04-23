@@ -2,14 +2,14 @@ const router = require("express").Router();
 const mysql = require('mysql');
 const configStuff = require("../config");
 
-const connection = mysql.createConnection({
-    host: configStuff.host,
-    user: configStuff.user,
-    password: configStuff.password,
-    database: configStuff.database,
-})
+// const connection = mysql.createConnection({
+//     host: configStuff.host,
+//     user: configStuff.user,
+//     password: configStuff.password,
+//     database: configStuff.database,
+// })
 
-// var connection = mysql.createConnection(process.env.JAWSDB_URL);
+var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
 
 connection.connect(err => {if (err) return err});
