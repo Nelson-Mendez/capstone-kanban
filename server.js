@@ -31,15 +31,13 @@ app.use(bodyParser.json());
 passport.use(new GithubStrategy({
   clientID: configStuff.clientID,
   clientSecret: configStuff.clientSecret,
-  callbackURL: "/auth/callback"
+  callbackURL: "https://simplified-kanban-nelson.herokuapp.com/auth/callback"
   },
   (accessToken, refreshToken, profile, cb) => {
     user = { ...profile };
     return cb(null, profile);
   }
 ));
-
-
 
 app.get("/auth/", passport.authenticate("github"));
 app.get("/auth/callback", passport.authenticate("github"), (req, res) => {
