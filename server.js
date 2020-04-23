@@ -43,7 +43,7 @@ passport.use(new GithubStrategy({
 
 app.get("/auth/", passport.authenticate("github"));
 app.get("/auth/callback", passport.authenticate("github"), (req, res) => {
-  res.redirect("https://simplified-kanban-nelson.herokuapp.com/user");
+  res.redirect("/user");
 });
 
 app.get('/user', (req, res) => {
