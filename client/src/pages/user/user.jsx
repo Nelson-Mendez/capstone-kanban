@@ -27,7 +27,7 @@ export default class Projects extends React.Component {
                 hasData: true,
 
             })
-            
+            console.log(res.data)
             const userId = Number(res.data.id);
             const displayName = res.data.displayName;
             
@@ -52,7 +52,7 @@ export default class Projects extends React.Component {
     getProjects = (userId) => {
         axios.get(`/database/projects/${userId}`)
         .then(res => this.setState({ projectList: res.data.result }))
-        .catch(error => console.log(error));
+        .catch(error => console.log(error, this.state));
     }
 
 
