@@ -43,7 +43,7 @@ passport.use(new GithubStrategy({
 
 app.get("/auth/", passport.authenticate("github"));
 app.get("/auth/callback", passport.authenticate("github"), (req, res) => {
-  res.redirect("/user");
+  res.redirect("/login");
 });
 
 app.get('/user', (req, res) => {
